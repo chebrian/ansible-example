@@ -1,0 +1,21 @@
+---
+
+###########################################################################
+# Packages
+###########################################################################
+- name: Install bash on centos
+  yum: name=bash state=latest
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Install bash on ubuntu
+  apt: name=bash state=latest
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: print result
+  command: env x='() { :;}; echo vulnerable' bash -c "echo this is a test"
+  register: output
+
+- debug: msg="{{ output.stdout }}"
+
+
+###########################################################################
